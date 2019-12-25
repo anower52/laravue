@@ -139,6 +139,7 @@
         },
         mounted() {
             this.loadUser();
+            setInterval(()=> this.loadUser(),3000);
         }
     }
 </script>
