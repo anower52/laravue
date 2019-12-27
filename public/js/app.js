@@ -2060,6 +2060,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2075,32 +2077,56 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    loadUser: function loadUser() {
+    deleteUser: function deleteUser(id) {
       var _this = this;
+
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then(function (result) {
+        if (result.value) {
+          _this.form["delete"]('api/user/' + id).then(function () {
+            Swal.fire('Deleted!', 'Your file has been deleted.', 'success');
+
+            _this.loadUser();
+          })["catch"](function () {
+            Swal("Failed!", "Something Wrong", "warning");
+          });
+        }
+      });
+    },
+    loadUser: function loadUser() {
+      var _this2 = this;
 
       axios.get("api/user").then(function (_ref) {
         var data = _ref.data;
-        return _this.users = data.data;
+        return _this2.users = data.data;
       });
     },
     createUser: function createUser() {
+      var _this3 = this;
+
       this.$Progress.start();
-      this.form.post('api/user');
-      $('#addNew').modal('hide');
-      Toast.fire({
-        icon: 'success',
-        title: 'User created successfully'
-      });
-      this.$Progress.finish();
+      this.form.post('api/user').then(function () {
+        _this3.loadUser();
+
+        $('#addNew').modal('hide');
+        Toast.fire({
+          icon: 'success',
+          title: 'User created successfully'
+        });
+
+        _this3.$Progress.finish();
+      })["catch"]({});
     }
   },
   mounted: function mounted() {
-    var _this2 = this;
-
-    this.loadUser();
-    setInterval(function () {
-      return _this2.loadUser();
-    }, 3000);
+    this.loadUser(); // setInterval(()=> this.loadUser(),3000);
   }
 });
 
@@ -59306,7 +59332,27 @@ var render = function() {
                       _vm._v(_vm._s(_vm._f("myDate")(user.created_at)))
                     ]),
                     _vm._v(" "),
-                    _vm._m(2, true)
+                    _c("td", [
+                      _c("a", {
+                        staticClass: "fas fa-pen",
+                        attrs: { href: "" }
+                      }),
+                      _vm._v(
+                        "\n                            /\n                            "
+                      ),
+                      _c(
+                        "a",
+                        {
+                          attrs: { href: "#" },
+                          on: {
+                            click: function($event) {
+                              return _vm.deleteUser(user.id)
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "fas fa-trash red" })]
+                      )
+                    ])
                   ])
                 })
               ],
@@ -59338,7 +59384,7 @@ var render = function() {
           },
           [
             _c("div", { staticClass: "modal-content" }, [
-              _vm._m(3),
+              _vm._m(2),
               _vm._v(" "),
               _c(
                 "form",
@@ -59576,7 +59622,7 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
-                  _vm._m(4)
+                  _vm._m(3)
                 ]
               )
             ])
@@ -59627,16 +59673,6 @@ var staticRenderFns = [
       _c("th", [_vm._v("Create At")]),
       _vm._v(" "),
       _c("th", [_vm._v("Action")])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("a", { staticClass: "fas fa-pen", attrs: { href: "" } }),
-      _vm._v("\n                            /\n                            "),
-      _c("a", { staticClass: "fa fa-trash red", attrs: { href: "" } })
     ])
   },
   function() {

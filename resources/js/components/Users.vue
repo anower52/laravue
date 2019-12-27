@@ -34,7 +34,9 @@
                             <td>
                                 <a href="" class="fas fa-pen"></a>
                                 /
-                                <a href="" class="fa fa-trash red"></a>
+                                <a href="#" @click="deleteUser(user.id)" >
+                                    <i class="fas fa-trash red"></i>
+                                </a>
                             </td>
                         </tr>
                         </tbody>
@@ -120,26 +122,56 @@
             }
         },
         methods: {
+            deleteUser(id){
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                }).then((result) => {
+                    if (result.value) {
+                        this.form.delete('api/user/'+id).then(()=>{
+                            Swal.fire(
+                                'Deleted!',
+                                'Your file has been deleted.',
+                                'success'
+                            );
+                            this.loadUser();
+                        }).catch(()=>{
+                            Swal("Failed!" , "Something Wrong" , "warning")
+                        })
+                    }
+                })
+            },
             loadUser(){
                 axios.get("api/user")
                     .then(({ data }) => (this.users = data.data) );
             },
             createUser() {
                 this.$Progress.start();
-                this.form.post('api/user');
+                this.form.post('api/user')
+                    .then(()=>{
+                        this.loadUser();
 
-                $('#addNew').modal('hide');
-                Toast.fire({
-                    icon: 'success',
-                    title: 'User created successfully'
+                        $('#addNew').modal('hide');
+                        Toast.fire({
+                            icon: 'success',
+                            title: 'User created successfully'
+                        });
+
+                        this.$Progress.finish();
+                    })
+                .catch({
+
                 });
-
-                this.$Progress.finish();
             }
         },
         mounted() {
             this.loadUser();
-            setInterval(()=> this.loadUser(),3000);
+            // setInterval(()=> this.loadUser(),3000);
         }
     }
 </script>
