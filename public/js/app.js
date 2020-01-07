@@ -2107,12 +2107,20 @@ __webpack_require__.r(__webpack_exports__);
 
       var reader = new FileReader();
 
-      reader.onloadend = function (file) {
-        // console.log('RESULT', reader.result)
-        _this.form.photo = reader.result;
-      };
+      if (file['size'] < 2111775) {
+        reader.onloadend = function (file) {
+          // console.log('RESULT', reader.result)
+          _this.form.photo = reader.result;
+        };
 
-      reader.readAsDataURL(file);
+        reader.readAsDataURL(file);
+      } else {
+        Swal({
+          type: 'error',
+          title: 'oops..... it more than 2mb',
+          text: 'You are uploading large file more than 2 mb'
+        });
+      }
     }
   },
   created: function created() {
@@ -61189,9 +61197,86 @@ var render = function() {
                       ])
                     ]),
                     _vm._v(" "),
-                    _vm._m(3),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-sm-2 control-label",
+                          attrs: { for: "inputName" }
+                        },
+                        [_vm._v("Password")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-sm-10" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.password,
+                              expression: "form.password"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            type: "text",
+                            id: "inputName",
+                            placeholder: "Name"
+                          },
+                          domProps: { value: _vm.form.password },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(
+                                _vm.form,
+                                "password",
+                                $event.target.value
+                              )
+                            }
+                          }
+                        })
+                      ])
+                    ]),
                     _vm._v(" "),
-                    _vm._m(4),
+                    _c("div", { staticClass: "form-group" }, [
+                      _c(
+                        "label",
+                        {
+                          staticClass: "col-sm-2 control-label",
+                          attrs: { for: "inputExperience" }
+                        },
+                        [_vm._v("Experience")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "col-sm-10" }, [
+                        _c("textarea", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.form.bio,
+                              expression: "form.bio"
+                            }
+                          ],
+                          staticClass: "form-control",
+                          attrs: {
+                            id: "inputExperience",
+                            placeholder: "Experience"
+                          },
+                          domProps: { value: _vm.form.bio },
+                          on: {
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.$set(_vm.form, "bio", $event.target.value)
+                            }
+                          }
+                        })
+                      ])
+                    ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "form-group" }, [
                       _c(
@@ -61217,7 +61302,7 @@ var render = function() {
                         _c(
                           "button",
                           {
-                            staticClass: "btn btn-danger",
+                            staticClass: "btn btn-success",
                             attrs: { type: "submit" },
                             on: {
                               click: function($event) {
@@ -61360,47 +61445,6 @@ var staticRenderFns = [
         _vm._v(
           "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem\n                                Ipsum has been the industry's standard dummy text ever since the 1500s"
         )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c(
-        "label",
-        { staticClass: "col-sm-2 control-label", attrs: { for: "inputName" } },
-        [_vm._v("Password")]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-sm-10" }, [
-        _c("input", {
-          staticClass: "form-control",
-          attrs: { type: "text", id: "inputName", placeholder: "Name" }
-        })
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group" }, [
-      _c(
-        "label",
-        {
-          staticClass: "col-sm-2 control-label",
-          attrs: { for: "inputExperience" }
-        },
-        [_vm._v("Experience")]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "col-sm-10" }, [
-        _c("textarea", {
-          staticClass: "form-control",
-          attrs: { id: "inputExperience", placeholder: "Experience" }
-        })
       ])
     ])
   }

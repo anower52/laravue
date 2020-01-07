@@ -92,14 +92,14 @@
                                         <label for="inputName" class="col-sm-2 control-label">Password</label>
 
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="inputName" placeholder="Name">
+                                            <input type="text" v-model="form.password" class="form-control" id="inputName" placeholder="Name">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="inputExperience" class="col-sm-2 control-label">Experience</label>
 
                                         <div class="col-sm-10">
-                                            <textarea class="form-control" id="inputExperience"
+                                            <textarea class="form-control" v-model="form.bio" id="inputExperience"
                                                       placeholder="Experience"></textarea>
                                         </div>
                                     </div>
@@ -112,7 +112,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-sm-offset-2 col-sm-10">
-                                            <button @click.prevent="updateInfo" type="submit" class="btn btn-danger">Update</button>
+                                            <button @click.prevent="updateInfo" type="submit" class="btn btn-success">Update</button>
                                         </div>
                                     </div>
                                 </form>
@@ -160,11 +160,20 @@
                 let file = e.target.files[0];
                 // console.log(file);
                 let reader = new FileReader();
-                reader.onloadend = (file) => {
-                    // console.log('RESULT', reader.result)
-                    this.form.photo = reader.result;
+
+                if(file['size'] <2111775 ){
+                    reader.onloadend = (file) => {
+                        // console.log('RESULT', reader.result)
+                        this.form.photo = reader.result;
+                    }
+                    reader.readAsDataURL(file);
+                }else {
+                    Swal({
+                        type: 'error',
+                        title: 'oops..... it more than 2mb',
+                        text: 'You are uploading large file more than 2 mb'
+                    })
                 }
-                reader.readAsDataURL(file);
             }
         },
         created() {
