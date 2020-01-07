@@ -9,10 +9,10 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth:api');
-    }
+//    public function __construct()
+//    {
+//        $this->middleware('auth:api');
+//    }
     /**
      * Display a listing of the resource.
      *
@@ -46,24 +46,21 @@ class UserController extends Controller
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
+    public function profile()
+    {
+        return auth('api')->user();
+    }
+    public function updateInfo(Request $request)
+    {
+        $user =  auth('api')->user();
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+        return $request->photo;
+    }
+
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
