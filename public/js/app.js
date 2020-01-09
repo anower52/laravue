@@ -2097,11 +2097,19 @@ __webpack_require__.r(__webpack_exports__);
     console.log('Component mounted.');
   },
   methods: {
+    getUserProfile: function getUserProfile() {
+      return "/img/profile/" + this.form.photo;
+    },
     updateInfo: function updateInfo() {
-      this.form.put('api/profile/').then(function () {})["catch"](function () {});
+      var _this = this;
+
+      this.$Progress.start();
+      this.form.put('api/profile/').then(function () {
+        _this.$Progress.finish();
+      })["catch"](function () {});
     },
     updateProfile: function updateProfile(e) {
-      var _this = this;
+      var _this2 = this;
 
       var file = e.target.files[0]; // console.log(file);
 
@@ -2110,7 +2118,7 @@ __webpack_require__.r(__webpack_exports__);
       if (file['size'] < 2111775) {
         reader.onloadend = function (file) {
           // console.log('RESULT', reader.result)
-          _this.form.photo = reader.result;
+          _this2.form.photo = reader.result;
         };
 
         reader.readAsDataURL(file);
@@ -2124,11 +2132,11 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   created: function created() {
-    var _this2 = this;
+    var _this3 = this;
 
     axios.get("api/profile").then(function (_ref) {
       var data = _ref.data;
-      return _this2.form.fill(data);
+      return _this3.form.fill(data);
     });
   }
 });
@@ -61103,16 +61111,31 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _vm._m(0),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-12" }, [
+        _c("div", { staticClass: "box box-widget widget-user" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticClass: "widget-user-image" }, [
+            _c("img", {
+              staticClass: "img-circle",
+              attrs: { src: _vm.getUserProfile(), alt: "User Avatar" }
+            })
+          ]),
+          _vm._v(" "),
+          _vm._m(1)
+        ])
+      ])
+    ]),
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-md-12" }, [
         _c("div", { staticClass: "box" }, [
-          _vm._m(1),
+          _vm._m(2),
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
             _c("div", { staticClass: "tab-content" }, [
-              _vm._m(2),
+              _vm._m(3),
               _vm._v(" "),
               _c(
                 "div",
@@ -61330,70 +61353,51 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-12" }, [
-        _c("div", {}, [
-          _c(
-            "div",
-            {
-              staticClass: "widget-user-header bg-black",
-              staticStyle: { "background-image": "url('./img/user_cover.jpg')" }
-            },
-            [
-              _c("h3", { staticClass: "widget-user-username" }, [
-                _vm._v("Anower Hasan")
-              ]),
-              _vm._v(" "),
-              _c("h5", { staticClass: "widget-user-desc" }, [
-                _vm._v("Web Developer")
-              ])
-            ]
-          ),
-          _vm._v(" "),
-          _c("div", { staticClass: "widget-user-image" }, [
-            _c("img", {
-              staticClass: "img-circle",
-              attrs: { src: "", alt: "User Avatar" }
-            })
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "box-footer" }, [
-            _c("div", { staticClass: "row" }, [
-              _c("div", { staticClass: "col-sm-4 border-right" }, [
-                _c("div", { staticClass: "description-block" }, [
-                  _c("h5", { staticClass: "description-header" }, [
-                    _vm._v("3,200")
-                  ]),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "description-text" }, [
-                    _vm._v("SALES")
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-sm-4 border-right" }, [
-                _c("div", { staticClass: "description-block" }, [
-                  _c("h5", { staticClass: "description-header" }, [
-                    _vm._v("13,000")
-                  ]),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "description-text" }, [
-                    _vm._v("FOLLOWERS")
-                  ])
-                ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "col-sm-4" }, [
-                _c("div", { staticClass: "description-block" }, [
-                  _c("h5", { staticClass: "description-header" }, [
-                    _vm._v("35")
-                  ]),
-                  _vm._v(" "),
-                  _c("span", { staticClass: "description-text" }, [
-                    _vm._v("PRODUCTS")
-                  ])
-                ])
-              ])
+    return _c(
+      "div",
+      {
+        staticClass: "widget-user-header bg-black",
+        staticStyle: { "background-image": "url('./img/user_cover.jpg')" }
+      },
+      [
+        _c("h3", { staticClass: "widget-user-username" }, [
+          _vm._v("Anower Hasan")
+        ]),
+        _vm._v(" "),
+        _c("h5", { staticClass: "widget-user-desc" }, [_vm._v("Web Developer")])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "box-footer" }, [
+      _c("div", { staticClass: "row" }, [
+        _c("div", { staticClass: "col-sm-4 border-right" }, [
+          _c("div", { staticClass: "description-block" }, [
+            _c("h5", { staticClass: "description-header" }, [_vm._v("3,200")]),
+            _vm._v(" "),
+            _c("span", { staticClass: "description-text" }, [_vm._v("SALES")])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-4 border-right" }, [
+          _c("div", { staticClass: "description-block" }, [
+            _c("h5", { staticClass: "description-header" }, [_vm._v("13,000")]),
+            _vm._v(" "),
+            _c("span", { staticClass: "description-text" }, [
+              _vm._v("FOLLOWERS")
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "col-sm-4" }, [
+          _c("div", { staticClass: "description-block" }, [
+            _c("h5", { staticClass: "description-header" }, [_vm._v("35")]),
+            _vm._v(" "),
+            _c("span", { staticClass: "description-text" }, [
+              _vm._v("PRODUCTS")
             ])
           ])
         ])

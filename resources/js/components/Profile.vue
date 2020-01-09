@@ -10,7 +10,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <div class="">
+                <div class="box box-widget widget-user">
                     <!--box box-widget widget-user-->
                     <!-- Add the bg color to the header using any of the bg-* classes -->
                     <div class="widget-user-header bg-black" style="background-image:url('./img/user_cover.jpg')">
@@ -18,7 +18,7 @@
                         <h5 class="widget-user-desc">Web Developer</h5>
                     </div>
                     <div class="widget-user-image">
-                        <img class="img-circle" src="" alt="User Avatar">
+                        <img class="img-circle" :src="getUserProfile()" alt="User Avatar">
                     </div>
                     <div class="box-footer">
                         <div class="row">
@@ -146,11 +146,15 @@
             console.log('Component mounted.')
         },
         methods: {
+            getUserProfile(){
+                return "/img/profile/"+ this.form.photo;
+            },
             updateInfo()
             {
+                this.$Progress.start();
                 this.form.put('api/profile/')
                     .then(()=>{
-
+                        this.$Progress.finish();
                     }).catch(()=>{
 
                 })
