@@ -63,6 +63,10 @@ Vue.filter('myDate', function (created) {
     return moment(created).format('MMMM Do YYYY');
 });
 
+window.Fire = new Vue();
+
+Vue.component('pagination', require('laravel-vue-pagination'));
+
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue
@@ -99,5 +103,13 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 
 const app = new Vue({
     el: '#app',
-    router
+    router,
+    data: {
+        search: ''
+    },
+    methods:{
+        searchit: _.debounce(()=>{
+            Fire.$emit('searching');
+        },2000)
+    }
 });

@@ -14,8 +14,8 @@
                     <!--box box-widget widget-user-->
                     <!-- Add the bg color to the header using any of the bg-* classes -->
                     <div class="widget-user-header bg-black" style="background-image:url('./img/user_cover.jpg')">
-                        <h3 class="widget-user-username">Anower Hasan</h3>
-                        <h5 class="widget-user-desc">Web Developer</h5>
+                        <h3 class="widget-user-username">{{ this.form.name}}</h3>
+                        <h5 class="widget-user-desc">{{ this.form.type}}</h5>
                     </div>
                     <div class="widget-user-image">
                         <img class="img-circle" :src="getUserProfile()" alt="User Avatar">

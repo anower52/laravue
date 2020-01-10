@@ -19,4 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::get('profile', 'API\UserController@profile');
 Route::put('profile', 'API\UserController@updateInfo');
+Route::get('findUser', 'API\UserController@search');
 Route::apiResources(['user' => 'API\UserController']);

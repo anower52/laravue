@@ -25,7 +25,7 @@
                             <th>Create At</th>
                             <th>Action</th>
                         </tr>
-                        <tr v-for="user in users" :key="user.id">
+                        <tr v-for="user in users.data" :key="user.id">
                             <td>{{ user.id }}</td>
                             <td>{{ user.name }}</td>
                             <td>{{ user.email }}</td>
@@ -45,6 +45,9 @@
                     </table>
                 </div>
                 <!-- /.box-body -->
+                <div class="card-footer">
+                    <pagination :data="users" @pagination-change-page="getResults"></pagination>
+                </div>
             </div>
             <!-- /.box -->
         </div>
@@ -55,7 +58,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 v-show="editmode" class="modal-title" id="exampleModalLabel">Update User</h5>
-                        <h5 v-show="!editmode" class="modal-title" id="exampleModalLabel">Create User</h5>
+                        <h5 v-show="!editmode" class="modal-title" id="">Create User</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -128,6 +131,12 @@
             }
         },
         methods: {
+            getResults(page = 1) {
+                axios.get('api/user?page=' + page)
+                    .then(response => {
+                        this.users = response.data;
+                    });
+            },
             newModal(){
                 this.editmode= false;
                 this.form.reset();
@@ -180,7 +189,7 @@
             },
             loadUser(){
                 axios.get("api/user")
-                    .then(({ data }) => (this.users = data.data) );
+                    .then(({ data }) => (this.users = data) );
             },
             createUser() {
                 this.$Progress.start();
@@ -202,6 +211,15 @@
             }
         },
         mounted() {
+            Fire.$on('searching',() =>{
+                let query = this.$parent.search;
+                axios.get('api/findUser?q=' +query)
+                    .then(()=>{
+                        this.user = data.data
+                    }).catch(()=>{
+
+                })
+            })
             this.loadUser();
             // setInterval(()=> this.loadUser(),3000);
         }
